@@ -1,0 +1,117 @@
+---
+title: "Pearls and pitfalls of time series analysis"
+subtitle: "using Google Analytics data"
+author: "WOMBAT 2019"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+
+```{css eval=FALSE, include=FALSE}
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+.left-code {
+  color: #777;
+  width: 38%;
+  height: 92%;
+  float: left;
+  font-size: 70% 
+}
+.right-plot {
+  width: 60%;
+  float: right;
+  padding-left: 1%;
+}
+.remark-code { font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace;
+                                    font-size: 70%;
+}
+.inverse {
+  background-color: #132734;
+  color: #d6d6d6;
+  text-shadow: 0 0 20px #333;
+}
+.title-slide {
+  background-color: #132734;
+  color: #d6d6d6;
+  text-shadow: 0 0 20px #333;
+  class: inverse, center, middle;
+  background-image: url('img/logo.png');  
+  background-position: 5% 98%;  
+  background-size: 150px ;
+}
+
+
+```
+
+class: inverse, center, middle
+
+# Dean Marchiori  
+deanmarchiori.github.io  
+
+---
+
+# What is Google Analytics?   
+
+---
+
+# What is it not?  
+
+---
+
+# How GA thinks about data  
+
+---
+class: inverse, center, middle
+
+# Yeah, but how do I get it out?  
+
+---
+
+# API    
+
+---
+
+# BigQuery  
+
+
+---
+class: inverse, center, middle
+
+# Yeah, but how do I get it out???  
+
+
+---
+
+# Packages  
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
