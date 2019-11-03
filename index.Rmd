@@ -165,9 +165,41 @@ class: inverse, center, middle
 
 # API    
 
+```{r echo=FALSE}
+knitr::include_graphics('img/api.png')
+```
+
+source: https://developers.google.com/analytics  
+
 ---
 
-# BigQuery  
+# API    
+
+```{r echo=FALSE}
+knitr::include_graphics('img/api2.png')
+```
+
+source: https://developers.google.com/analytics  
+
+
+---
+
+# Query Explorer
+
+https://ga-dev-tools.appspot.com/query-explorer/
+
+```{r echo=FALSE}
+knitr::include_graphics('img/queryexplorer.png', dpi = 200)
+```
+
+---
+
+# BigQuery   
+
+* Google cloud based data warehouse solution  
+* Users of Analytics 360 only  
+* Get a full export daily of all sessions and hits  
+* query in a SQL like syntax
 
 
 ---
