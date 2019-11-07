@@ -155,12 +155,102 @@ https://ga-dev-tools.appspot.com/query-explorer/
 
 ---
 
+# Dimensions and Metrics Explorer
+
+https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
+
+&lt;img src="img/dimmtricexpl.png" width="217" /&gt;
+
+
+---
+
 # BigQuery   
 
 * Google cloud based data warehouse solution  
 * Users of Analytics 360 only  
 * Get a full export daily of all sessions and hits  
 * query in a SQL like syntax
+
+---
+
+
+# How it works  
+
+* exports each day's data is exported to bigquery  
+* Each view has its own 'dataset'  
+* Each day creates a new table : "ga_sessions_YYYYMMDD"  
+
+&lt;img src="img/bq-1.png" width="295" /&gt;
+
+&lt;img src="img/bq-2.png" width="907" /&gt;
+
+---
+
+# Sample Dataset  
+
+https://support.google.com/analytics/answer/7586738?hl=en  
+
+
+&lt;img src="img/sample.png" width="2057" /&gt;
+
+---
+
+# Standard vs Legacy SQL
+
+There are two dialects:  
+
+* Standard SQL  
+* Legacy SQL
+
+## **Use Standard SQL**  
+
+
+```sql
+
+#standardSQL
+SELECT  date, 
+        totals.visits, 
+        totals.pageviews 
+
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
+```
+
+
+---
+
+# Arrays and STRUCTS    
+
+
+- explain  
+- example of array
+- nest and unnest
+- explain cross join  
+- contrast to Reln database  
+
+
+---
+
+# Query   
+
+- query a table  
+- query date range tables  
+- query 100 days  
+- explain unnesting  
+
+---
+
+# Big Query Cookbook  
+
+https://support.google.com/analytics/answer/4419694?hl=en&amp;ref_topic=3416089
+
+
+---
+
+# Export Schema  
+
+https://support.google.com/analytics/answer/3437719?hl=en&amp;ref_topic=3416089
+
+
 
 
 ---
@@ -174,6 +264,43 @@ class: inverse, center, middle
 # Packages  
 
 ---
+
+# Time series example  
+
+
+---
+
+# Pearls and pitfalls summary  
+
+- sampling  
+- time zones
+- limits  
+- api speed and api limits
+- 
+
+---
+
+
+# code bank  
+
+
+---
+
+# dont skip resources  
+
+---
+
+
+
+# References  
+
+https://developers.google.com/analytics  
+
+https://ga-dev-tools.appspot.com/query-explorer/
+
+https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
+
+https://support.google.com/analytics/answer/7586738?hl=en
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

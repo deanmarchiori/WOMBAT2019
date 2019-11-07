@@ -194,12 +194,109 @@ knitr::include_graphics('img/queryexplorer.png', dpi = 200)
 
 ---
 
+# Dimensions and Metrics Explorer
+
+https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
+
+```{r echo=FALSE}
+knitr::include_graphics('img/dimmtricexpl.png', dpi = 200)
+```
+
+
+---
+
 # BigQuery   
 
 * Google cloud based data warehouse solution  
 * Users of Analytics 360 only  
 * Get a full export daily of all sessions and hits  
 * query in a SQL like syntax
+
+---
+
+
+# How it works  
+
+* exports each day's data is exported to bigquery  
+* Each view has its own 'dataset'  
+* Each day creates a new table : "ga_sessions_YYYYMMDD"  
+
+```{r echo=FALSE}
+knitr::include_graphics('img/bq-1.png')
+```
+
+```{r echo=FALSE}
+knitr::include_graphics('img/bq-2.png')
+```
+
+---
+
+# Sample Dataset  
+
+https://support.google.com/analytics/answer/7586738?hl=en  
+
+
+```{r echo=FALSE}
+knitr::include_graphics('img/sample.png')
+```
+
+---
+
+# Standard vs Legacy SQL
+
+There are two dialects:  
+
+* Standard SQL  
+* Legacy SQL
+
+## **Use Standard SQL**  
+
+```{sql eval=FALSE, include=TRUE}
+
+#standardSQL
+SELECT  date, 
+        totals.visits, 
+        totals.pageviews 
+
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
+```
+
+
+---
+
+# Arrays and STRUCTS    
+
+
+- explain  
+- example of array
+- nest and unnest
+- explain cross join  
+- contrast to Reln database  
+
+
+---
+
+# Query   
+
+- query a table  
+- query date range tables  
+- query 100 days  
+- explain unnesting  
+
+---
+
+# Big Query Cookbook  
+
+https://support.google.com/analytics/answer/4419694?hl=en&ref_topic=3416089
+
+
+---
+
+# Export Schema  
+
+https://support.google.com/analytics/answer/3437719?hl=en&ref_topic=3416089
+
+
 
 
 ---
@@ -214,13 +311,42 @@ class: inverse, center, middle
 
 ---
 
+# Time series example  
+
+
+---
+
+# Pearls and pitfalls summary  
+
+- sampling  
+- time zones
+- limits  
+- api speed and api limits
+- 
+
+---
+
+
+# code bank  
+
+
+---
+
+# dont skip resources  
+
+---
 
 
 
+# References  
 
+https://developers.google.com/analytics  
 
+https://ga-dev-tools.appspot.com/query-explorer/
 
+https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
 
+https://support.google.com/analytics/answer/7586738?hl=en  
 
 
 
