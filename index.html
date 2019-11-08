@@ -21,10 +21,47 @@ class: center, middle, inverse, title-slide
 
 
 
-class: inverse, center, middle
+class: center  
 
 # Dean Marchiori  
 deanmarchiori.github.io  
+
+&lt;img src="img/dean.jpg" width="276" /&gt;
+
+---
+
+Clinical pearls are " small bits of free standing, clinically relevant information. " (Lorin MI, 2008)
+
+Lorin, Martin &amp; Palazzi, Debra &amp; Turner, Teri &amp; Ward, Mark. (2008). What is a clinical pearl and what is its role in medical education?. Medical teacher. 30. 870-4. 10.1080/01421590802144286. 
+
+---
+
+# Industrial data analysis  
+
+* Productive  
+* Efficient  
+* Effective 
+
+&gt; Profitable  
+
+
+---
+class: inverse, center, middle  
+
+# Perfect is the enemy of good
+
+---
+
+# Everything you need to know  
+# The least you need to know
+
+
+---
+
+
+# analyst being compentent  
+
+# tools being well designed  
 
 ---
 
@@ -45,6 +82,21 @@ deanmarchiori.github.io
 * simple  
 
 &lt;img src="img/ga2.png" width="2457" /&gt;
+
+
+---
+
+# What is BigQuery   
+
+* Google cloud based data warehouse solution  
+* Get a full export daily of all sessions and hits  
+* query in a SQL like syntax  
+* (Users of Analytics 360 only)
+
+
+&lt;img src="img/bq-1.png" width="295" /&gt;
+
+&lt;img src="img/bq-2.png" width="907" /&gt;
 
 ---
 
@@ -147,67 +199,16 @@ source: https://developers.google.com/analytics
 
 ---
 
-# Query Explorer
-
-https://ga-dev-tools.appspot.com/query-explorer/
-
-&lt;img src="img/queryexplorer.png" width="392" /&gt;
-
----
-
-# Dimensions and Metrics Explorer
-
-https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
-
-&lt;img src="img/dimmtricexpl.png" width="217" /&gt;
-
-
----
-
-# BigQuery   
-
-* Google cloud based data warehouse solution  
-* Users of Analytics 360 only  
-* Get a full export daily of all sessions and hits  
-* query in a SQL like syntax
-
----
-
-
-# How it works  
-
-* exports each day's data is exported to bigquery  
-* Each view has its own 'dataset'  
-* Each day creates a new table : "ga_sessions_YYYYMMDD"  
-
-&lt;img src="img/bq-1.png" width="295" /&gt;
-
-&lt;img src="img/bq-2.png" width="907" /&gt;
-
----
-
-# Sample Dataset  
-
-https://support.google.com/analytics/answer/7586738?hl=en  
-
-
-&lt;img src="img/sample.png" width="2057" /&gt;
-
----
-
-# Standard vs Legacy SQL
+# Use Standard SQL
 
 There are two dialects:  
 
 * Standard SQL  
 * Legacy SQL
 
-## **Use Standard SQL**  
-
 
 ```sql
-
-#standardSQL
+*#standardSQL
 SELECT  date, 
         totals.visits, 
         totals.pageviews 
@@ -218,24 +219,153 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
 
 ---
 
-# Arrays and STRUCTS    
+# Learn Arrays and STRUCTS    
+
+Array: Ordered list of zero or more elements of any non-ARRAY type.   
+STRUCT:  Container of ordered fields each with a type  
 
 
-- explain  
-- example of array
-- nest and unnest
-- explain cross join  
-- contrast to Reln database  
+
+```sql
+SELECT [1, 2, 3] AS numbers; 
+```
+
+---  
+
+---
+# Structured / Relational Database  
+
+
+&lt;img src="img/rdb.png" width="2059" /&gt;
+
+
+---
+# Semi-Structured / Denormalised 
+
+&lt;img src="img/ssdb.png" width="283" /&gt;
+
+---
+
+# Example  
+
+
+```sql
+#standardSQL
+SELECT  'Gin and Tonic' AS drink,
+        ['Gin', 'Tonic'] AS ingredients
+  UNION ALL
+SELECT  'Martini' AS drink,
+        ['Gin', 'Dry Vermouth'] AS ingredients
+  UNION ALL
+SELECT  'Manhattan' AS drink,
+        ['Rye Whiskey', 'Sweet Vermouth', 'Angostura bitters'] AS ingredients
+```
+
+&lt;img src="img/eg1.png" width="283" /&gt;
+
+---
+
+# Example  
+
+
+```sql
+SELECT drink FROM cocktails
+```
+
+&lt;img src="img/eg2.png" width="231" /&gt;
+
+---
+
+# Example  
+
+
+```sql
+SELECT  drink, 
+        flat_ingredients
+FROM cocktails
+* CROSS JOIN UNNEST(cocktails.ingredients) as flat_ingredients
+```
+
+&lt;img src="img/eg3.png" width="303" /&gt;
+
+---
+
+# Learn about table suffix  
+
+
+---
+class: inverse, center, middle
+
+# Yeah, but how do I get it out???  
 
 
 ---
 
-# Query   
+# Use `googleAnalyticsR`    
 
-- query a table  
-- query date range tables  
-- query 100 days  
-- explain unnesting  
+Maintained by Mark Edmondson  
+
+- Well maintained  
+- Well documented  
+- Loads of useful functions  
+
+Notable Mentions:  
+* rga  
+* RGoogleAnalytics  
+* ganalytics  
+* GAR  
+
+
+
+---
+
+# Time series example   
+
+
+```r
+library(googleAnalyticsR)
+
+my_ga &lt;- google_analytics(viewId = 184371396, 
+                          date_range = c('2019-01-01', '2019-02-01'), 
+                          dimensions = "date",
+                          metrics = "sessions", 
+                          max = -1)
+```
+
+
+---
+
+# Dials and Knobs  
+
+
+---
+
+# Sampling &amp; Limits  
+
+
+---
+
+# Time zones and DST  
+
+
+---
+
+# Modelling Functions  
+
+
+---
+class: inverse, center, middle
+
+# Don't-skip-resources  
+
+---
+
+# Sample Dataset  
+
+https://support.google.com/analytics/answer/7586738?hl=en  
+
+
+&lt;img src="img/sample.png" width="2057" /&gt;
 
 ---
 
@@ -250,57 +380,21 @@ https://support.google.com/analytics/answer/4419694?hl=en&amp;ref_topic=3416089
 
 https://support.google.com/analytics/answer/3437719?hl=en&amp;ref_topic=3416089
 
-
-
-
----
-class: inverse, center, middle
-
-# Yeah, but how do I get it out???  
-
-
 ---
 
-# Packages  
-
----
-
-# Time series example  
-
-
----
-
-# Pearls and pitfalls summary  
-
-- sampling  
-- time zones
-- limits  
-- api speed and api limits
-- 
-
----
-
-
-# code bank  
-
-
----
-
-# dont skip resources  
-
----
-
-
-
-# References  
-
-https://developers.google.com/analytics  
+# Query Explorer
 
 https://ga-dev-tools.appspot.com/query-explorer/
 
+&lt;img src="img/queryexplorer.png" width="392" /&gt;
+
+---
+
+# Dimensions and Metrics Explorer
+
 https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
 
-https://support.google.com/analytics/answer/7586738?hl=en
+&lt;img src="img/dimmtricexpl.png" width="217" /&gt;
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
