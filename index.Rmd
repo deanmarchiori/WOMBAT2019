@@ -369,7 +369,122 @@ Notable Mentions:
 
 ---
 
-# Time series example   
+# Time series example    
+
+
+```{r eval=FALSE, include=TRUE}
+library(googleAnalyticsR)
+library(tsibble)
+library(fable)
+library(tidyverse)
+
+ga_demo <- google_analytics(viewId = 184371396, 
+                            date_range = c('2019-07-01', '2019-08-31'), 
+                            dimensions = c("date"),
+                            metrics = "sessions", 
+                            max = -1) %>% 
+  as_tsibble()
+
+ga_demo %>%  
+  model(ets = ETS(sessions)) %>% 
+  forecast(h = 20) %>% 
+  autoplot(ga_demo)
+
+```  
+
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(googleAnalyticsR)
+library(tsibble)
+library(fable)
+library(tidyverse)
+
+ga_demo <- tibble::tribble(
+                                                   ~date, ~sessions,
+                                                20190701,      2742,
+                                                20190702,      2574,
+                                                20190703,      2488,
+                                                20190704,      1720,
+                                                20190705,      1713,
+                                                20190706,      1490,
+                                                20190707,      1480,
+                                                20190708,      2685,
+                                                20190709,      2897,
+                                                20190710,      2714,
+                                                20190711,      2449,
+                                                20190712,      2171,
+                                                20190713,      1486,
+                                                20190714,      1434,
+                                                20190715,      2616,
+                                                20190716,      2600,
+                                                20190717,      2399,
+                                                20190718,      2484,
+                                                20190719,      2246,
+                                                20190720,      1391,
+                                                20190721,      1492,
+                                                20190722,      2356,
+                                                20190723,      2292,
+                                                20190724,      2451,
+                                                20190725,      2282,
+                                                20190726,      2171,
+                                                20190727,      1403,
+                                                20190728,      1432,
+                                                20190729,      2350,
+                                                20190730,      2454,
+                                                20190731,      2271,
+                                                20190801,      2228,
+                                                20190802,      2081,
+                                                20190803,      1354,
+                                                20190804,      1583,
+                                                20190805,      2424,
+                                                20190806,      3255,
+                                                20190807,      3353,
+                                                20190808,      2431,
+                                                20190809,      2425,
+                                                20190810,      1640,
+                                                20190811,      1431,
+                                                20190812,      2387,
+                                                20190813,      2437,
+                                                20190814,      2184,
+                                                20190815,      2112,
+                                                20190816,      2083,
+                                                20190817,      1423,
+                                                20190818,      1536,
+                                                20190819,      2805,
+                                                20190820,      3313,
+                                                20190821,      2480,
+                                                20190822,      2491,
+                                                20190823,      2292,
+                                                20190824,      1669,
+                                                20190825,      1539,
+                                                20190826,      2413,
+                                                20190827,      2634,
+                                                20190828,      2375,
+                                                20190829,      2435,
+                                                20190830,      2034,
+                                                20190831,      1473
+                                                ) %>% 
+  mutate(date = lubridate::ymd(date)) %>% 
+    as_tsibble() 
+
+ga_demo %>%
+  model(ets = ETS(sessions,)) %>% 
+  forecast(h = 30) %>% 
+  autoplot(ga_demo) 
+
+```
+
+
+---
+
+# Rows returned   
+
+* Defaults to 1000
+* Up to 100k rows per API call  
+* Batches of up to 5 can be processed, but complicated requests may result in a `500` error     
+
+See `slow_fetch = TRUE`  
 
 ```{r eval=FALSE, include=TRUE}
 library(googleAnalyticsR)
@@ -378,25 +493,44 @@ my_ga <- google_analytics(viewId = 184371396,
                           date_range = c('2019-01-01', '2019-02-01'), 
                           dimensions = "date",
                           metrics = "sessions", 
-                          max = -1)
+                          max = -1) #<<
 
 ```
 
-
----
-
-# Dials and Knobs  
+`max`:	 Maximum number of rows to fetch. Defaults at 1000. Use -1 to fetch all results. Ignored when anti_sample=TRUE.    
 
 
 ---
+ 
+# Sampling & Limits    
 
-# Sampling & Limits  
+* To speed up processing, Google with 'sample' reports based on just a percentage of total sessions if above a threshold (~500k)  
+* You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
+* Or turn it off - but this uses more API calls 
 
+```{r eval=FALSE, include=TRUE}
+library(googleAnalyticsR)
+
+my_ga <- google_analytics(viewId = 184371396, 
+                          date_range = c('2019-01-01', '2019-02-01'), 
+                          dimensions = "date",
+                          metrics = "sessions", 
+                          max = -1, 
+                          anti_sample = TRUE) #<<
+
+```
+
+`anti_sample`: If TRUE will split up the call to avoid sampling.
 
 ---
 
-# Time zones and DST  
+# Time zones and DST    
 
+* the timezone of your data is based on the settings for that particular view  
+
+*"If you choose a time zone that honors Daylight Savings Time, Analytics automatically adjusts for the changes. If you do not want Analytics to adjust for Daylight Savings time, then you can use Greenwich Mean Time instead of your local time zone."*  
+
+https://support.google.com/analytics/answer/1010249?hl=en
 
 ---
 

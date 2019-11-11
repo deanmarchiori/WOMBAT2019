@@ -261,7 +261,7 @@ SELECT  'Manhattan' AS drink,
         ['Rye Whiskey', 'Sweet Vermouth', 'Angostura bitters'] AS ingredients
 ```
 
-&lt;img src="img/eg1.png" width="283" /&gt;
+![](img/eg1.png)&lt;!-- --&gt;
 
 ---
 
@@ -272,7 +272,7 @@ SELECT  'Manhattan' AS drink,
 SELECT drink FROM cocktails
 ```
 
-&lt;img src="img/eg2.png" width="231" /&gt;
+![](img/eg2.png)&lt;!-- --&gt;
 
 ---
 
@@ -286,7 +286,7 @@ FROM cocktails
 * CROSS JOIN UNNEST(cocktails.ingredients) as flat_ingredients
 ```
 
-&lt;img src="img/eg3.png" width="303" /&gt;
+![](img/eg3.png)&lt;!-- --&gt;
 
 ---
 
@@ -319,7 +319,43 @@ Notable Mentions:
 
 ---
 
-# Time series example   
+# Time series example    
+
+
+
+```r
+library(googleAnalyticsR)
+library(tsibble)
+library(fable)
+library(tidyverse)
+
+ga_demo &lt;- google_analytics(viewId = 184371396, 
+                            date_range = c('2019-07-01', '2019-08-31'), 
+                            dimensions = c("date"),
+                            metrics = "sessions", 
+                            max = -1) %&gt;% 
+  as_tsibble()
+
+ga_demo %&gt;%  
+  model(ets = ETS(sessions)) %&gt;% 
+  forecast(h = 20) %&gt;% 
+  autoplot(ga_demo)
+```
+
+---
+
+![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Rows returned   
+
+* Defaults to 1000
+* Up to 100k rows per API call  
+* Batches of up to 5 can be processed, but complicated requests may result in a `500` error     
+
+See `slow_fetch = TRUE`  
 
 
 ```r
@@ -329,24 +365,43 @@ my_ga &lt;- google_analytics(viewId = 184371396,
                           date_range = c('2019-01-01', '2019-02-01'), 
                           dimensions = "date",
                           metrics = "sessions", 
-                          max = -1)
+*                         max = -1)
 ```
 
-
----
-
-# Dials and Knobs  
+`max`:	 Maximum number of rows to fetch. Defaults at 1000. Use -1 to fetch all results. Ignored when anti_sample=TRUE.    
 
 
 ---
+ 
+# Sampling &amp; Limits    
 
-# Sampling &amp; Limits  
+* To speed up processing, Google with 'sample' reports based on just a percentage of total sessions if above a threshold (~500k)  
+* You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
+* Or turn it off - but this uses more API calls 
 
+
+```r
+library(googleAnalyticsR)
+
+my_ga &lt;- google_analytics(viewId = 184371396, 
+                          date_range = c('2019-01-01', '2019-02-01'), 
+                          dimensions = "date",
+                          metrics = "sessions", 
+                          max = -1, 
+*                         anti_sample = TRUE)
+```
+
+`anti_sample`: If TRUE will split up the call to avoid sampling.
 
 ---
 
-# Time zones and DST  
+# Time zones and DST    
 
+* the timezone of your data is based on the settings for that particular view  
+
+*"If you choose a time zone that honors Daylight Savings Time, Analytics automatically adjusts for the changes. If you do not want Analytics to adjust for Daylight Savings time, then you can use Greenwich Mean Time instead of your local time zone."*  
+
+https://support.google.com/analytics/answer/1010249?hl=en
 
 ---
 
