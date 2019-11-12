@@ -21,28 +21,54 @@ class: center, middle, inverse, title-slide
 
 
 
-class: center  
+class: inverse, center, middle  
 
 # Dean Marchiori  
 deanmarchiori.github.io  
 
+---
+class:  center, middle  
+
 &lt;img src="img/dean.jpg" width="276" /&gt;
 
 ---
+class:  center, middle  
 
-Clinical pearls are " small bits of free standing, clinically relevant information. " (Lorin MI, 2008)
+&lt;img src="img/20191104_102759.jpg" width="645" /&gt;
 
-Lorin, Martin &amp; Palazzi, Debra &amp; Turner, Teri &amp; Ward, Mark. (2008). What is a clinical pearl and what is its role in medical education?. Medical teacher. 30. 870-4. 10.1080/01421590802144286. 
+---
+class:  center, middle  
+
+&lt;img src="img/20191104_103641.jpg" width="645" /&gt;
+
+---
+# Why Pearls and Pitfalls?
+
+&gt;  Clinical pearls are " small bits of free standing, clinically relevant information based on experience or observation."   
+
+&lt;br&gt;  
+
+*Lorin, Martin &amp; Palazzi, Debra &amp; Turner, Teri &amp; Ward, Mark. (2008). What is a clinical pearl and what is its role in medical education?. Medical teacher. 30. 870-4. 10.1080/01421590802144286.* 
 
 ---
 
 # Industrial data analysis  
 
-* Productive  
-* Efficient  
-* Effective 
+--
 
-&gt; Profitable  
+## 1. Productive   
+
+--
+
+## 2. Efficient  
+
+--
+
+## 3. Effective  
+
+--
+
+&gt; # Profitable  
 
 
 ---
@@ -51,19 +77,26 @@ class: inverse, center, middle
 # Perfect is the enemy of good
 
 ---
+class: inverse, center, middle    
 
-# Everything you need to know  
+# Everything you need to know
+
+---
+class: inverse, center, middle    
+
+# ~~Everything you need to know~~  
 # The least you need to know
 
 
 ---
+# Relies on..
 
+# 1. Analyst being compentent  
 
-# analyst being compentent  
-
-# tools being well designed  
+# 2. Tools being well designed    
 
 ---
+
 
 # What is Google Analytics?   
 
@@ -86,33 +119,17 @@ class: inverse, center, middle
 
 ---
 
-# What is BigQuery   
-
-* Google cloud based data warehouse solution  
-* Get a full export daily of all sessions and hits  
-* query in a SQL like syntax  
-* (Users of Analytics 360 only)
-
-
-&lt;img src="img/bq-1.png" width="295" /&gt;
-
-&lt;img src="img/bq-2.png" width="907" /&gt;
-
----
-
-# How GA thinks about data   
-
-## Dimensions  
+# GA sees data as *dimensions* and *metrics*
 
 --
+
+## Dimensions  
 
 The attributes of your data  
 
 --
 
 ## Metrics  
-
---
 
 The quantitative measurements  
 
@@ -190,12 +207,156 @@ source: https://developers.google.com/analytics
 
 ---
 
-# API    
+# Don't forget the *Management API*   
 
 &lt;img src="img/api2.png" width="1788" /&gt;
 
 source: https://developers.google.com/analytics  
 
+
+---
+class: inverse, center, middle
+
+# Yeah, but how do I get it out???  
+
+
+---
+background-image: url(img/gar.png)
+background-position: 90% 7%
+background-size: 100px
+  
+  
+# Use `googleAnalyticsR`    
+
+Maintained by Mark Edmondson  
+
+- Well maintained  
+- Well documented  
+- Loads of useful functions  
+
+--
+
+Notable Mentions:  
+* [rga](https://cran.r-project.org/web/packages/RGA/index.html)  
+* [RGoogleAnalytics](https://cran.r-project.org/web/packages/RGoogleAnalytics/index.html)  
+* [ganalytics](https://cran.rstudio.com/web/packages/ganalytics/index.html)  
+* [GAR](https://cran.r-project.org/web/packages/GAR/index.html)  
+
+
+---
+
+# Time series example    
+
+
+
+```r
+library(googleAnalyticsR)
+library(tsibble)
+library(fable)
+library(tidyverse)
+
+ga_demo &lt;- google_analytics(viewId = 1234567, 
+                            date_range = c('2019-07-01', '2019-08-31'), 
+                            dimensions = c("date"),
+                            metrics = "sessions", 
+                            max = -1) %&gt;% 
+  as_tsibble()
+
+ga_demo %&gt;%  
+  model(ets = ETS(sessions)) %&gt;% 
+  forecast(h = 20) %&gt;% 
+  autoplot(ga_demo)
+```
+
+---
+
+![](index_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Carefully check the number of rows   
+
+* Defaults to 1000
+* Up to 100k rows per API call  
+* Batches of up to 5 can be processed, but complicated requests may result in a `500` error. (See `slow_fetch = TRUE`)
+
+--
+
+
+```r
+library(googleAnalyticsR)
+
+my_ga &lt;- google_analytics(viewId = 1234567, 
+                          date_range = c('2019-01-01', '2019-02-01'), 
+                          dimensions = "date",
+                          metrics = "sessions", 
+*                         max = -1)
+```
+
+*`max`:	 Maximum number of rows to fetch. Defaults at 1000. Use -1 to fetch all results. Ignored when `anti_sample=TRUE`.*   
+
+
+---
+ 
+# Beware of sampling if accuracy really matters    
+
+* To speed up processing, Google will 'sample' larger reports based on just a percentage of total sessions.
+* You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
+* Or turn it off - but this uses more API calls 
+
+--
+
+
+```r
+library(googleAnalyticsR)
+
+my_ga &lt;- google_analytics(viewId = 184371396, 
+                          date_range = c('2019-01-01', '2019-02-01'), 
+                          dimensions = "date",
+                          metrics = "sessions", 
+                          max = -1, 
+*                         anti_sample = TRUE)
+```
+
+`anti_sample`: If TRUE will split up the call to avoid sampling.
+
+---
+
+# As if tz weren't annoying enough...
+
+* the timezone of your data is based on the settings for that particular view  
+
+*"If you choose a time zone that honors Daylight Savings Time, Analytics automatically adjusts for the changes. If you do not want Analytics to adjust for Daylight Savings time, then you can use Greenwich Mean Time instead of your local time zone."*  
+
+https://support.google.com/analytics/answer/1010249?hl=en
+
+
+---
+
+# What is BigQuery   
+
+* Google cloud based data warehouse solution  
+* Get a full export daily of all sessions and hits  
+* query in a SQL like syntax  
+* (Users of Analytics 360 only)
+
+
+&lt;img src="img/bq-1.png" width="295" /&gt;
+
+&lt;img src="img/bq-2.png" width="907" /&gt;
+
+---
+# Structured / Relational Database  
+
+
+&lt;img src="img/rdb.png" width="2059" /&gt;
+
+
+---
+# Semi-Structured / Denormalised 
+
+&lt;img src="img/ssdb.png" width="283" /&gt;
 
 ---
 
@@ -221,8 +382,8 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
 
 # Learn Arrays and STRUCTS    
 
-Array: Ordered list of zero or more elements of any non-ARRAY type.   
-STRUCT:  Container of ordered fields each with a type  
+**Array:** Ordered list of zero or more elements of any non-ARRAY type.   
+**STRUCT:**  Container of ordered fields each with a type  
 
 
 
@@ -230,19 +391,7 @@ STRUCT:  Container of ordered fields each with a type
 SELECT [1, 2, 3] AS numbers; 
 ```
 
----  
-
----
-# Structured / Relational Database  
-
-
-&lt;img src="img/rdb.png" width="2059" /&gt;
-
-
----
-# Semi-Structured / Denormalised 
-
-&lt;img src="img/ssdb.png" width="283" /&gt;
+&lt;img src="img/eg4.PNG" width="200" /&gt;
 
 ---
 
@@ -261,7 +410,7 @@ SELECT  'Manhattan' AS drink,
         ['Rye Whiskey', 'Sweet Vermouth', 'Angostura bitters'] AS ingredients
 ```
 
-![](img/eg1.png)&lt;!-- --&gt;
+&lt;img src="img/eg1.PNG" width="283" /&gt;
 
 ---
 
@@ -272,7 +421,7 @@ SELECT  'Manhattan' AS drink,
 SELECT drink FROM cocktails
 ```
 
-![](img/eg2.png)&lt;!-- --&gt;
+&lt;img src="img/eg2.PNG" width="231" /&gt;
 
 ---
 
@@ -286,127 +435,7 @@ FROM cocktails
 * CROSS JOIN UNNEST(cocktails.ingredients) as flat_ingredients
 ```
 
-![](img/eg3.png)&lt;!-- --&gt;
-
----
-
-# Learn about table suffix  
-
-
----
-class: inverse, center, middle
-
-# Yeah, but how do I get it out???  
-
-
----
-
-# Use `googleAnalyticsR`    
-
-Maintained by Mark Edmondson  
-
-- Well maintained  
-- Well documented  
-- Loads of useful functions  
-
-Notable Mentions:  
-* rga  
-* RGoogleAnalytics  
-* ganalytics  
-* GAR  
-
-
-
----
-
-# Time series example    
-
-
-
-```r
-library(googleAnalyticsR)
-library(tsibble)
-library(fable)
-library(tidyverse)
-
-ga_demo &lt;- google_analytics(viewId = 184371396, 
-                            date_range = c('2019-07-01', '2019-08-31'), 
-                            dimensions = c("date"),
-                            metrics = "sessions", 
-                            max = -1) %&gt;% 
-  as_tsibble()
-
-ga_demo %&gt;%  
-  model(ets = ETS(sessions)) %&gt;% 
-  forecast(h = 20) %&gt;% 
-  autoplot(ga_demo)
-```
-
----
-
-![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
-
-
----
-
-# Rows returned   
-
-* Defaults to 1000
-* Up to 100k rows per API call  
-* Batches of up to 5 can be processed, but complicated requests may result in a `500` error     
-
-See `slow_fetch = TRUE`  
-
-
-```r
-library(googleAnalyticsR)
-
-my_ga &lt;- google_analytics(viewId = 184371396, 
-                          date_range = c('2019-01-01', '2019-02-01'), 
-                          dimensions = "date",
-                          metrics = "sessions", 
-*                         max = -1)
-```
-
-`max`:	 Maximum number of rows to fetch. Defaults at 1000. Use -1 to fetch all results. Ignored when anti_sample=TRUE.    
-
-
----
- 
-# Sampling &amp; Limits    
-
-* To speed up processing, Google with 'sample' reports based on just a percentage of total sessions if above a threshold (~500k)  
-* You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
-* Or turn it off - but this uses more API calls 
-
-
-```r
-library(googleAnalyticsR)
-
-my_ga &lt;- google_analytics(viewId = 184371396, 
-                          date_range = c('2019-01-01', '2019-02-01'), 
-                          dimensions = "date",
-                          metrics = "sessions", 
-                          max = -1, 
-*                         anti_sample = TRUE)
-```
-
-`anti_sample`: If TRUE will split up the call to avoid sampling.
-
----
-
-# Time zones and DST    
-
-* the timezone of your data is based on the settings for that particular view  
-
-*"If you choose a time zone that honors Daylight Savings Time, Analytics automatically adjusts for the changes. If you do not want Analytics to adjust for Daylight Savings time, then you can use Greenwich Mean Time instead of your local time zone."*  
-
-https://support.google.com/analytics/answer/1010249?hl=en
-
----
-
-# Modelling Functions  
-
+&lt;img src="img/eg3.PNG" width="303" /&gt;
 
 ---
 class: inverse, center, middle

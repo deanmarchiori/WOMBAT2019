@@ -52,30 +52,60 @@ pre {
 
 ```
 
-class: center  
+class: inverse, center, middle  
 
 # Dean Marchiori  
 deanmarchiori.github.io  
+
+---
+class:  center, middle  
 
 ```{r echo=FALSE}
 knitr::include_graphics('img/dean.jpg', dpi = 600)
 ```
 
 ---
+class:  center, middle  
 
-Clinical pearls are " small bits of free standing, clinically relevant information. " (Lorin MI, 2008)
+```{r echo=FALSE}
+knitr::include_graphics('img/20191104_102759.jpg', dpi = 600)
+```
 
-Lorin, Martin & Palazzi, Debra & Turner, Teri & Ward, Mark. (2008). What is a clinical pearl and what is its role in medical education?. Medical teacher. 30. 870-4. 10.1080/01421590802144286. 
+---
+class:  center, middle  
+
+```{r echo=FALSE}
+knitr::include_graphics('img/20191104_103641.jpg', dpi = 600)
+```
+
+---
+# Why Pearls and Pitfalls?
+
+>  Clinical pearls are " small bits of free standing, clinically relevant information based on experience or observation."   
+
+<br>  
+
+*Lorin, Martin & Palazzi, Debra & Turner, Teri & Ward, Mark. (2008). What is a clinical pearl and what is its role in medical education?. Medical teacher. 30. 870-4. 10.1080/01421590802144286.* 
 
 ---
 
 # Industrial data analysis  
 
-* Productive  
-* Efficient  
-* Effective 
+--
 
-> Profitable  
+## 1. Productive   
+
+--
+
+## 2. Efficient  
+
+--
+
+## 3. Effective  
+
+--
+
+> # Profitable  
 
 
 ---
@@ -84,19 +114,26 @@ class: inverse, center, middle
 # Perfect is the enemy of good
 
 ---
+class: inverse, center, middle    
 
-# Everything you need to know  
+# Everything you need to know
+
+---
+class: inverse, center, middle    
+
+# ~~Everything you need to know~~  
 # The least you need to know
 
 
 ---
+# Relies on..
 
+# 1. Analyst being compentent  
 
-# analyst being compentent  
-
-# tools being well designed  
+# 2. Tools being well designed    
 
 ---
+
 
 # What is Google Analytics?   
 
@@ -123,37 +160,17 @@ knitr::include_graphics('img/ga2.png')
 
 ---
 
-# What is BigQuery   
-
-* Google cloud based data warehouse solution  
-* Get a full export daily of all sessions and hits  
-* query in a SQL like syntax  
-* (Users of Analytics 360 only)
-
-
-```{r echo=FALSE}
-knitr::include_graphics('img/bq-1.png')
-```
-
-```{r echo=FALSE}
-knitr::include_graphics('img/bq-2.png')
-```
-
----
-
-# How GA thinks about data   
-
-## Dimensions  
+# GA sees data as *dimensions* and *metrics*
 
 --
+
+## Dimensions  
 
 The attributes of your data  
 
 --
 
 ## Metrics  
-
---
 
 The quantitative measurements  
 
@@ -233,7 +250,7 @@ source: https://developers.google.com/analytics
 
 ---
 
-# API    
+# Don't forget the *Management API*   
 
 ```{r echo=FALSE}
 knitr::include_graphics('img/api2.png')
@@ -243,114 +260,17 @@ source: https://developers.google.com/analytics
 
 
 ---
-
-# Use Standard SQL
-
-There are two dialects:  
-
-* Standard SQL  
-* Legacy SQL
-
-```{sql eval=FALSE, include=TRUE}
-#standardSQL #<<
-SELECT  date, 
-        totals.visits, 
-        totals.pageviews 
-
-FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
-```
-
-
----
-
-# Learn Arrays and STRUCTS    
-
-Array: Ordered list of zero or more elements of any non-ARRAY type.   
-STRUCT:  Container of ordered fields each with a type  
-
-
-```{sql eval=FALSE, include=TRUE}
-SELECT [1, 2, 3] AS numbers; 
-```
-
----  
-
----
-# Structured / Relational Database  
-
-
-```{r echo=FALSE}
-knitr::include_graphics('img/rdb.png')
-```
-
-
----
-# Semi-Structured / Denormalised 
-
-```{r echo=FALSE}
-knitr::include_graphics('img/ssdb.png', dpi = 100)
-```
-
----
-
-# Example  
-
-```{sql eval=FALSE, include=TRUE}
-#standardSQL
-SELECT  'Gin and Tonic' AS drink,
-        ['Gin', 'Tonic'] AS ingredients
-  UNION ALL
-SELECT  'Martini' AS drink,
-        ['Gin', 'Dry Vermouth'] AS ingredients
-  UNION ALL
-SELECT  'Manhattan' AS drink,
-        ['Rye Whiskey', 'Sweet Vermouth', 'Angostura bitters'] AS ingredients
-```
-
-```{r echo=FALSE}
-knitr::include_graphics('img/eg1.png', dpi = 100)
-```
-
----
-
-# Example  
-
-```{sql eval=FALSE, include=TRUE}
-SELECT drink FROM cocktails
-```
-
-```{r echo=FALSE}
-knitr::include_graphics('img/eg2.png', dpi = 100)
-```
-
----
-
-# Example  
-
-```{sql eval=FALSE, include=TRUE}
-SELECT  drink, 
-        flat_ingredients
-FROM cocktails
-  CROSS JOIN UNNEST(cocktails.ingredients) as flat_ingredients #<<
-```
-
-```{r echo=FALSE}
-knitr::include_graphics('img/eg3.png', dpi = 100)
-```
-
----
-
-# Learn about table suffix  
-
-
----
 class: inverse, center, middle
 
 # Yeah, but how do I get it out???  
 
 
 ---
-
+background-image: url(img/gar.png)
+background-position: 90% 7%
+background-size: 100px
+  
+  
 # Use `googleAnalyticsR`    
 
 Maintained by Mark Edmondson  
@@ -359,12 +279,13 @@ Maintained by Mark Edmondson
 - Well documented  
 - Loads of useful functions  
 
-Notable Mentions:  
-* rga  
-* RGoogleAnalytics  
-* ganalytics  
-* GAR  
+--
 
+Notable Mentions:  
+* [rga](https://cran.r-project.org/web/packages/RGA/index.html)  
+* [RGoogleAnalytics](https://cran.r-project.org/web/packages/RGoogleAnalytics/index.html)  
+* [ganalytics](https://cran.rstudio.com/web/packages/ganalytics/index.html)  
+* [GAR](https://cran.r-project.org/web/packages/GAR/index.html)  
 
 
 ---
@@ -378,7 +299,7 @@ library(tsibble)
 library(fable)
 library(tidyverse)
 
-ga_demo <- google_analytics(viewId = 184371396, 
+ga_demo <- google_analytics(viewId = 1234567, 
                             date_range = c('2019-07-01', '2019-08-31'), 
                             dimensions = c("date"),
                             metrics = "sessions", 
@@ -394,7 +315,7 @@ ga_demo %>%
 
 ---
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.width=12, message=FALSE, warning=FALSE}
 library(googleAnalyticsR)
 library(tsibble)
 library(fable)
@@ -478,18 +399,18 @@ ga_demo %>%
 
 ---
 
-# Rows returned   
+# Carefully check the number of rows   
 
 * Defaults to 1000
 * Up to 100k rows per API call  
-* Batches of up to 5 can be processed, but complicated requests may result in a `500` error     
+* Batches of up to 5 can be processed, but complicated requests may result in a `500` error. (See `slow_fetch = TRUE`)
 
-See `slow_fetch = TRUE`  
+--
 
 ```{r eval=FALSE, include=TRUE}
 library(googleAnalyticsR)
 
-my_ga <- google_analytics(viewId = 184371396, 
+my_ga <- google_analytics(viewId = 1234567, 
                           date_range = c('2019-01-01', '2019-02-01'), 
                           dimensions = "date",
                           metrics = "sessions", 
@@ -497,16 +418,18 @@ my_ga <- google_analytics(viewId = 184371396,
 
 ```
 
-`max`:	 Maximum number of rows to fetch. Defaults at 1000. Use -1 to fetch all results. Ignored when anti_sample=TRUE.    
+*`max`:	 Maximum number of rows to fetch. Defaults at 1000. Use -1 to fetch all results. Ignored when `anti_sample=TRUE`.*   
 
 
 ---
  
-# Sampling & Limits    
+# Beware of sampling if accuracy really matters    
 
-* To speed up processing, Google with 'sample' reports based on just a percentage of total sessions if above a threshold (~500k)  
+* To speed up processing, Google will 'sample' larger reports based on just a percentage of total sessions.
 * You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
 * Or turn it off - but this uses more API calls 
+
+--
 
 ```{r eval=FALSE, include=TRUE}
 library(googleAnalyticsR)
@@ -524,7 +447,7 @@ my_ga <- google_analytics(viewId = 184371396,
 
 ---
 
-# Time zones and DST    
+# As if tz weren't annoying enough...
 
 * the timezone of your data is based on the settings for that particular view  
 
@@ -532,10 +455,122 @@ my_ga <- google_analytics(viewId = 184371396,
 
 https://support.google.com/analytics/answer/1010249?hl=en
 
+
 ---
 
-# Modelling Functions  
+# What is BigQuery   
 
+* Google cloud based data warehouse solution  
+* Get a full export daily of all sessions and hits  
+* query in a SQL like syntax  
+* (Users of Analytics 360 only)
+
+
+```{r echo=FALSE}
+knitr::include_graphics('img/bq-1.png')
+```
+
+```{r echo=FALSE}
+knitr::include_graphics('img/bq-2.png')
+```
+
+---
+# Structured / Relational Database  
+
+
+```{r echo=FALSE}
+knitr::include_graphics('img/rdb.png')
+```
+
+
+---
+# Semi-Structured / Denormalised 
+
+```{r echo=FALSE}
+knitr::include_graphics('img/ssdb.png', dpi = 100)
+```
+
+---
+
+# Use Standard SQL
+
+There are two dialects:  
+
+* Standard SQL  
+* Legacy SQL
+
+```{sql eval=FALSE, include=TRUE}
+#standardSQL #<<
+SELECT  date, 
+        totals.visits, 
+        totals.pageviews 
+
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
+```
+
+
+---
+
+# Learn Arrays and STRUCTS    
+
+**Array:** Ordered list of zero or more elements of any non-ARRAY type.   
+**STRUCT:**  Container of ordered fields each with a type  
+
+
+```{sql eval=FALSE, include=TRUE}
+SELECT [1, 2, 3] AS numbers; 
+```
+
+```{r echo=FALSE}
+knitr::include_graphics('img/eg4.PNG', dpi = 100)
+```
+
+---
+
+# Example  
+
+```{sql eval=FALSE, include=TRUE}
+#standardSQL
+SELECT  'Gin and Tonic' AS drink,
+        ['Gin', 'Tonic'] AS ingredients
+  UNION ALL
+SELECT  'Martini' AS drink,
+        ['Gin', 'Dry Vermouth'] AS ingredients
+  UNION ALL
+SELECT  'Manhattan' AS drink,
+        ['Rye Whiskey', 'Sweet Vermouth', 'Angostura bitters'] AS ingredients
+```
+
+```{r echo=FALSE}
+knitr::include_graphics('img/eg1.PNG', dpi = 100)
+```
+
+---
+
+# Example  
+
+```{sql eval=FALSE, include=TRUE}
+SELECT drink FROM cocktails
+```
+
+```{r echo=FALSE}
+knitr::include_graphics('img/eg2.PNG', dpi = 100)
+```
+
+---
+
+# Example  
+
+```{sql eval=FALSE, include=TRUE}
+SELECT  drink, 
+        flat_ingredients
+FROM cocktails
+  CROSS JOIN UNNEST(cocktails.ingredients) as flat_ingredients #<<
+```
+
+```{r echo=FALSE}
+knitr::include_graphics('img/eg3.PNG', dpi = 100)
+```
 
 ---
 class: inverse, center, middle
@@ -585,15 +620,6 @@ https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
 ```{r echo=FALSE}
 knitr::include_graphics('img/dimmtricexpl.png', dpi = 200)
 ```
-
-
-
-
-
-
-
-
-
 
 
 
