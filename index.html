@@ -19,12 +19,26 @@ class: center, middle, inverse, title-slide
 
 
 
+&lt;style type="text/css"&gt;
+.inverse {
+  background-color: #0B4A72;
+  color: #0B4A72;
+  text-shadow: 0 0 20px #333;
+}
+.title-slide {
+  background-color: #0B4A72;
+  color: #0B4A72;
+  text-shadow: 0 0 20px #333;
+  class: inverse, center, middle;
+  background-position: 5% 98%;  
+  background-size: 150px ;
+}
+h1 {
+  color: #1D70B8;
+}
 
+&lt;/style&gt;
 
-class: inverse, center, middle  
-
-# Dean Marchiori  
-deanmarchiori.github.io  
 
 ---
 class:  center, middle  
@@ -42,7 +56,7 @@ class:  center, middle
 &lt;img src="img/20191104_103641.jpg" width="645" /&gt;
 
 ---
-# Why Pearls and Pitfalls?
+# why pearls and pitfalls?
 
 &gt;  Clinical pearls are " small bits of free standing, clinically relevant information based on experience or observation."   
 
@@ -52,7 +66,7 @@ class:  center, middle
 
 ---
 
-# Industrial data analysis  
+# industrial data analysis  
 
 --
 
@@ -74,12 +88,12 @@ class:  center, middle
 ---
 class: inverse, center, middle  
 
-# Perfect is the enemy of good
+# perfect is the enemy of good
 
 ---
 class: inverse, center, middle    
 
-# Everything you need to know
+# everything you need to know
 
 ---
 class: inverse, center, middle    
@@ -89,16 +103,15 @@ class: inverse, center, middle
 
 
 ---
-# Relies on..
+# relies on..
 
-# 1. Analyst being compentent  
-
-# 2. Tools being well designed    
+## 1. Analyst being compentent  
+## 2. Tools being well designed    
 
 ---
 
 
-# What is Google Analytics?   
+# what is Google Analytics?   
 
 * web analytics service  
 * free (to a point)  
@@ -109,7 +122,7 @@ class: inverse, center, middle
 
 ---
 
-# What is it not?   
+# what is it not?   
 * advanced analytics / modelling platform  
 * extensible   
 * simple  
@@ -123,7 +136,7 @@ class: inverse, center, middle
 
 --
 
-## Dimensions  
+## dimensions  
 
 The attributes of your data  
 
@@ -171,7 +184,7 @@ page | sessions
 
 ---
 
-# Going nuts
+# going nuts
 
 |date       |browser           |browserversion   | sessions| bouncerate|
 |:----------|:-----------------|:----------------|--------:|----------:|
@@ -207,7 +220,7 @@ source: https://developers.google.com/analytics
 
 ---
 
-# Don't forget the *Management API*   
+# don't forget the *Management API*   
 
 &lt;img src="img/api2.png" width="1788" /&gt;
 
@@ -226,7 +239,7 @@ background-position: 90% 7%
 background-size: 100px
   
   
-# Use `googleAnalyticsR`    
+# use `googleAnalyticsR`    
 
 Maintained by Mark Edmondson  
 
@@ -245,7 +258,7 @@ Notable Mentions:
 
 ---
 
-# Time series example    
+# time series example    
 
 
 
@@ -275,7 +288,7 @@ ga_demo %&gt;%
 
 ---
 
-# Carefully check the number of rows   
+# carefully check the number of rows   
 
 * Defaults to 1000
 * Up to 100k rows per API call  
@@ -299,7 +312,7 @@ my_ga &lt;- google_analytics(viewId = 1234567,
 
 ---
  
-# Beware of sampling if accuracy really matters    
+# beware of sampling if accuracy really matters    
 
 * To speed up processing, Google will 'sample' larger reports based on just a percentage of total sessions.
 * You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
@@ -323,7 +336,7 @@ my_ga &lt;- google_analytics(viewId = 184371396,
 
 ---
 
-# As if tz weren't annoying enough...
+# as if tz weren't annoying enough...
 
 * the timezone of your data is based on the settings for that particular view  
 
@@ -334,7 +347,7 @@ https://support.google.com/analytics/answer/1010249?hl=en
 
 ---
 
-# What is BigQuery   
+# what is BigQuery?
 
 * Google cloud based data warehouse solution  
 * Get a full export daily of all sessions and hits  
@@ -347,20 +360,20 @@ https://support.google.com/analytics/answer/1010249?hl=en
 &lt;img src="img/bq-2.png" width="907" /&gt;
 
 ---
-# Structured / Relational Database  
+# structured / relational database  
 
 
 &lt;img src="img/rdb.png" width="2059" /&gt;
 
 
 ---
-# Semi-Structured / Denormalised 
+# semi-structured / denormalised 
 
 &lt;img src="img/ssdb.png" width="283" /&gt;
 
 ---
 
-# Use Standard SQL
+# use standard SQL
 
 There are two dialects:  
 
@@ -380,7 +393,7 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
 
 ---
 
-# Learn Arrays and STRUCTS    
+# learn arrays and STRUCTS    
 
 **Array:** Ordered list of zero or more elements of any non-ARRAY type.   
 **STRUCT:**  Container of ordered fields each with a type  
@@ -395,7 +408,7 @@ SELECT [1, 2, 3] AS numbers;
 
 ---
 
-# Example  
+# example  
 
 
 ```sql
@@ -414,7 +427,7 @@ SELECT  'Manhattan' AS drink,
 
 ---
 
-# Example  
+# example  
 
 
 ```sql
@@ -425,7 +438,7 @@ SELECT drink FROM cocktails
 
 ---
 
-# Example  
+# example  
 
 
 ```sql
@@ -440,7 +453,7 @@ FROM cocktails
 ---
 class: inverse, center, middle
 
-# Don't-skip-resources  
+# don't-skip-resources  
 
 ---
 
@@ -479,6 +492,17 @@ https://ga-dev-tools.appspot.com/query-explorer/
 https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
 
 &lt;img src="img/dimmtricexpl.png" width="217" /&gt;
+
+---
+class: inverse, center, middle  
+
+# fire some questions at me
+
+&lt;br&gt;  
+&lt;br&gt;  
+
+## Dean Marchiori  
+[deanmarchiori.github.io](deanmarchiori.github.io)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

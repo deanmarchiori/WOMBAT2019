@@ -14,48 +14,26 @@ editor_options:
 ---
 
 
-```{css eval=FALSE, include=FALSE}
-pre {
-  max-width: 100%;
-  overflow-x: scroll;
-}
-.left-code {
-  color: #777;
-  width: 38%;
-  height: 92%;
-  float: left;
-  font-size: 70% 
-}
-.right-plot {
-  width: 60%;
-  float: right;
-  padding-left: 1%;
-}
-.remark-code { font-family: 'Source Code Pro', 'Lucida Console', Monaco, monospace;
-                                    font-size: 70%;
-}
+```{css echo = FALSE}
 .inverse {
-  background-color: #132734;
-  color: #d6d6d6;
+  background-color: #0B4A72;
+  color: #0B4A72;
   text-shadow: 0 0 20px #333;
 }
 .title-slide {
-  background-color: #132734;
-  color: #d6d6d6;
+  background-color: #0B4A72;
+  color: #0B4A72;
   text-shadow: 0 0 20px #333;
   class: inverse, center, middle;
-  background-image: url('img/logo.png');  
   background-position: 5% 98%;  
   background-size: 150px ;
 }
-
+h1 {
+  color: #1D70B8;
+}
 
 ```
 
-class: inverse, center, middle  
-
-# Dean Marchiori  
-deanmarchiori.github.io  
 
 ---
 class:  center, middle  
@@ -79,7 +57,7 @@ knitr::include_graphics('img/20191104_103641.jpg', dpi = 600)
 ```
 
 ---
-# Why Pearls and Pitfalls?
+# why pearls and pitfalls?
 
 >  Clinical pearls are " small bits of free standing, clinically relevant information based on experience or observation."   
 
@@ -89,7 +67,7 @@ knitr::include_graphics('img/20191104_103641.jpg', dpi = 600)
 
 ---
 
-# Industrial data analysis  
+# industrial data analysis  
 
 --
 
@@ -111,12 +89,12 @@ knitr::include_graphics('img/20191104_103641.jpg', dpi = 600)
 ---
 class: inverse, center, middle  
 
-# Perfect is the enemy of good
+# perfect is the enemy of good
 
 ---
 class: inverse, center, middle    
 
-# Everything you need to know
+# everything you need to know
 
 ---
 class: inverse, center, middle    
@@ -126,16 +104,15 @@ class: inverse, center, middle
 
 
 ---
-# Relies on..
+# relies on..
 
-# 1. Analyst being compentent  
-
-# 2. Tools being well designed    
+## 1. Analyst being compentent  
+## 2. Tools being well designed    
 
 ---
 
 
-# What is Google Analytics?   
+# what is Google Analytics?   
 
 * web analytics service  
 * free (to a point)  
@@ -148,7 +125,7 @@ knitr::include_graphics('img/ga.png')
 
 ---
 
-# What is it not?   
+# what is it not?   
 * advanced analytics / modelling platform  
 * extensible   
 * simple  
@@ -164,7 +141,7 @@ knitr::include_graphics('img/ga2.png')
 
 --
 
-## Dimensions  
+## dimensions  
 
 The attributes of your data  
 
@@ -212,7 +189,7 @@ page | sessions
 
 ---
 
-# Going nuts
+# going nuts
 
 |date       |browser           |browserversion   | sessions| bouncerate|
 |:----------|:-----------------|:----------------|--------:|----------:|
@@ -250,7 +227,7 @@ source: https://developers.google.com/analytics
 
 ---
 
-# Don't forget the *Management API*   
+# don't forget the *Management API*   
 
 ```{r echo=FALSE}
 knitr::include_graphics('img/api2.png')
@@ -271,7 +248,7 @@ background-position: 90% 7%
 background-size: 100px
   
   
-# Use `googleAnalyticsR`    
+# use `googleAnalyticsR`    
 
 Maintained by Mark Edmondson  
 
@@ -290,7 +267,7 @@ Notable Mentions:
 
 ---
 
-# Time series example    
+# time series example    
 
 
 ```{r eval=FALSE, include=TRUE}
@@ -399,7 +376,7 @@ ga_demo %>%
 
 ---
 
-# Carefully check the number of rows   
+# carefully check the number of rows   
 
 * Defaults to 1000
 * Up to 100k rows per API call  
@@ -423,7 +400,7 @@ my_ga <- google_analytics(viewId = 1234567,
 
 ---
  
-# Beware of sampling if accuracy really matters    
+# beware of sampling if accuracy really matters    
 
 * To speed up processing, Google will 'sample' larger reports based on just a percentage of total sessions.
 * You can control sampling with `samplingLevel = c("DEFAULT", "SMALL", "LARGE")`  
@@ -447,7 +424,7 @@ my_ga <- google_analytics(viewId = 184371396,
 
 ---
 
-# As if tz weren't annoying enough...
+# as if tz weren't annoying enough...
 
 * the timezone of your data is based on the settings for that particular view  
 
@@ -458,7 +435,7 @@ https://support.google.com/analytics/answer/1010249?hl=en
 
 ---
 
-# What is BigQuery   
+# what is BigQuery?
 
 * Google cloud based data warehouse solution  
 * Get a full export daily of all sessions and hits  
@@ -475,7 +452,7 @@ knitr::include_graphics('img/bq-2.png')
 ```
 
 ---
-# Structured / Relational Database  
+# structured / relational database  
 
 
 ```{r echo=FALSE}
@@ -484,7 +461,7 @@ knitr::include_graphics('img/rdb.png')
 
 
 ---
-# Semi-Structured / Denormalised 
+# semi-structured / denormalised 
 
 ```{r echo=FALSE}
 knitr::include_graphics('img/ssdb.png', dpi = 100)
@@ -492,7 +469,7 @@ knitr::include_graphics('img/ssdb.png', dpi = 100)
 
 ---
 
-# Use Standard SQL
+# use standard SQL
 
 There are two dialects:  
 
@@ -511,7 +488,7 @@ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_20170801`
 
 ---
 
-# Learn Arrays and STRUCTS    
+# learn arrays and STRUCTS    
 
 **Array:** Ordered list of zero or more elements of any non-ARRAY type.   
 **STRUCT:**  Container of ordered fields each with a type  
@@ -527,7 +504,7 @@ knitr::include_graphics('img/eg4.PNG', dpi = 100)
 
 ---
 
-# Example  
+# example  
 
 ```{sql eval=FALSE, include=TRUE}
 #standardSQL
@@ -547,7 +524,7 @@ knitr::include_graphics('img/eg1.PNG', dpi = 100)
 
 ---
 
-# Example  
+# example  
 
 ```{sql eval=FALSE, include=TRUE}
 SELECT drink FROM cocktails
@@ -559,7 +536,7 @@ knitr::include_graphics('img/eg2.PNG', dpi = 100)
 
 ---
 
-# Example  
+# example  
 
 ```{sql eval=FALSE, include=TRUE}
 SELECT  drink, 
@@ -575,7 +552,7 @@ knitr::include_graphics('img/eg3.PNG', dpi = 100)
 ---
 class: inverse, center, middle
 
-# Don't-skip-resources  
+# don't-skip-resources  
 
 ---
 
@@ -621,5 +598,15 @@ https://ga-dev-tools.appspot.com/dimensions-metrics-explorer/
 knitr::include_graphics('img/dimmtricexpl.png', dpi = 200)
 ```
 
+---
+class: inverse, center, middle  
+
+# fire some questions at me
+
+<br>  
+<br>  
+
+## Dean Marchiori  
+[deanmarchiori.github.io](deanmarchiori.github.io)  
 
 
