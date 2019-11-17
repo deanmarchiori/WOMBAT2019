@@ -57,6 +57,14 @@ knitr::include_graphics('img/20191104_103641.jpg', dpi = 600)
 ```
 
 ---
+class:  center, middle  
+
+```{r echo=FALSE, out.extra="style='transform:rotate(90deg)'"}
+knitr::include_graphics('img/20191105_141032.jpg', dpi = 600)
+```
+
+
+---
 # why pearls and pitfalls?
 
 >  Clinical pearls are " small bits of free standing, clinically relevant information based on experience or observation."   
